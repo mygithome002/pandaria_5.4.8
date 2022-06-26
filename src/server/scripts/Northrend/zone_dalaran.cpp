@@ -50,6 +50,8 @@ enum Spells
 
     NPC_APPLEBOUGH_A                        = 29547,
     NPC_SWEETBERRY_H                        = 29715,
+    NPC_SILVER_COVENANT_GUARDIAN_MAGE       = 29254,
+    NPC_SUNREAVER_GUARDIAN_MAGE             = 29255,
 
     ZONE_DALARAN                            = 4395
 };
@@ -67,11 +69,11 @@ struct npc_mageguard_dalaran : public ScriptedAI
         creature->ApplySpellImmune(0, IMMUNITY_DAMAGE, SPELL_SCHOOL_MASK_MAGIC, true);
     }
 
-    void Reset()override { }
+    void Reset() override { }
 
-    void EnterCombat(Unit* /*who*/)override { }
+    void EnterCombat(Unit* /*who*/) override { }
 
-    void AttackStart(Unit* /*who*/)override { }
+    void AttackStart(Unit* /*who*/) override { }
 
     void MoveInLineOfSight(Unit* who) override
 
@@ -91,7 +93,7 @@ struct npc_mageguard_dalaran : public ScriptedAI
 
         switch (me->GetEntry())
         {
-            case 29254:
+            case NPC_SILVER_COVENANT_GUARDIAN_MAGE:
                 if (player->GetTeam() == HORDE)
                 {
                     if (GetClosestCreatureWithEntry(me, NPC_APPLEBOUGH_A, 32.0f))
@@ -103,7 +105,7 @@ struct npc_mageguard_dalaran : public ScriptedAI
                         DoCast(who, SPELL_TRESPASSER_A);
                 }
                 break;
-            case 29255:
+            case NPC_SUNREAVER_GUARDIAN_MAGE:
                 if (player->GetTeam() == ALLIANCE)
                 {
                     if (GetClosestCreatureWithEntry(me, NPC_SWEETBERRY_H, 32.0f))
@@ -121,7 +123,7 @@ struct npc_mageguard_dalaran : public ScriptedAI
         return;
     }
 
-    void UpdateAI(uint32 /*diff*/)override { }
+    void UpdateAI(uint32 /*diff*/) override { }
 };
 
 /*******************************************************
@@ -139,7 +141,7 @@ struct npc_minigob_manabonk : public ScriptedAI
     {
         playerGuid = ObjectGuid();
         me->SetVisible(false);
-        events.ScheduleEvent(EVENT_SELECT_TARGET, 1 * IN_MILLISECONDS);
+        events.ScheduleEvent(EVENT_SELECT_TARGET, 1s);
     }
 
     void GetPlayersInDalaran(std::vector<Player*>& playerList) const
@@ -173,8 +175,6 @@ struct npc_minigob_manabonk : public ScriptedAI
 
         while (uint32 eventId = events.ExecuteEvent())
         {
-            Position pos;
-
             switch (eventId)
             {
                 case EVENT_SELECT_TARGET:
@@ -197,20 +197,20 @@ struct npc_minigob_manabonk : public ScriptedAI
                         player->MovePositionToFirstCollision(pos, dist, angle);
                         me->NearTeleportTo(pos.GetPositionX(), pos.GetPositionY(), pos.GetPositionZ(), pos.GetOrientation());
                     }
-                    events.ScheduleEvent(EVENT_LAUGH_1, 2 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_LAUGH_1, 2s);
                     break;
                 }
                 case EVENT_LAUGH_1:
                     me->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH_NO_SHEATHE);
-                    events.ScheduleEvent(EVENT_WANDER, 3 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_WANDER, 3s);
                     break;
                 case EVENT_WANDER:
                     me->GetMotionMaster()->MoveRandom(8);
-                    events.ScheduleEvent(EVENT_PAUSE, 1 * MINUTE);
+                    events.ScheduleEvent(EVENT_PAUSE, 1min);
                     break;
                 case EVENT_PAUSE:
                     me->GetMotionMaster()->MoveIdle();
-                    events.ScheduleEvent(EVENT_CAST, 2 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_CAST, 2s);
                     break;
                 case EVENT_CAST:
                     if (Player* player = me->GetMap()->GetPlayer(playerGuid))
@@ -221,15 +221,15 @@ struct npc_minigob_manabonk : public ScriptedAI
                     else
                         me->AddObjectToRemoveList();
 
-                    events.ScheduleEvent(EVENT_LAUGH_2, 8 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_LAUGH_2, 8s);
                     break;
                 case EVENT_LAUGH_2:
                     me->HandleEmoteCommand(EMOTE_ONESHOT_LAUGH_NO_SHEATHE);
-                    events.ScheduleEvent(EVENT_BLINK, 3 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_BLINK, 3s);
                     break;
                 case EVENT_BLINK:
                     DoCastSelf(SPELL_IMPROVED_BLINK);
-                    events.ScheduleEvent(EVENT_DESPAWN, 4 * IN_MILLISECONDS);
+                    events.ScheduleEvent(EVENT_DESPAWN, 4s);
                     break;
                 case EVENT_DESPAWN:
                     me->AddObjectToRemoveList();
@@ -245,8 +245,132 @@ private:
     EventMap events;
 };
 
+enum ArchmageLandalockQuests
+{
+    QUEST_SARTHARION_MUST_DIE               = 24579,
+    QUEST_ANUBREKHAN_MUST_DIE               = 24580,
+    QUEST_NOTH_THE_PLAGUEBINGER_MUST_DIE    = 24581,
+    QUEST_INSTRUCTOR_RAZUVIOUS_MUST_DIE     = 24582,
+    QUEST_PATCHWERK_MUST_DIE                = 24583,
+    QUEST_MALYGOS_MUST_DIE                  = 24584,
+    QUEST_FLAME_LEVIATHAN_MUST_DIE          = 24585,
+    QUEST_RAZORSCALE_MUST_DIE               = 24586,
+    QUEST_IGNIS_THE_FURNACE_MASTER_MUST_DIE = 24587,
+    QUEST_XT_002_DECONSTRUCTOR_MUST_DIE     = 24588,
+    QUEST_LORD_JARAXXUS_MUST_DIE            = 24589,
+    QUEST_LORD_MARROWGAR_MUST_DIE           = 24590
+};
+
+enum ArchmageLandalockImages
+{
+    NPC_SARTHARION_IMAGE                    = 37849,
+    NPC_ANUBREKHAN_IMAGE                    = 37850,
+    NPC_NOTH_THE_PLAGUEBINGER_IMAGE         = 37851,
+    NPC_INSTRUCTOR_RAZUVIOUS_IMAGE          = 37853,
+    NPC_PATCHWERK_IMAGE                     = 37854,
+    NPC_MALYGOS_IMAGE                       = 37855,
+    NPC_FLAME_LEVIATHAN_IMAGE               = 37856,
+    NPC_RAZORSCALE_IMAGE                    = 37858,
+    NPC_IGNIS_THE_FURNACE_MASTER_IMAGE      = 37859,
+    NPC_XT_002_DECONSTRUCTOR_IMAGE          = 37861,
+    NPC_LORD_JARAXXUS_IMAGE                 = 37862,
+    NPC_LORD_MARROWGAR_IMAGE                = 37864
+};
+
+struct npc_archmage_landalock : public ScriptedAI
+{
+    npc_archmage_landalock(Creature* creature) : ScriptedAI(creature)
+    {
+        _switchImageTimer = MINUTE * IN_MILLISECONDS;
+        _summonGUID = 0;
+    }
+
+    uint32 GetImageEntry(uint32 QuestId)
+    {
+        switch (QuestId)
+        {
+            case QUEST_SARTHARION_MUST_DIE:
+                return NPC_SARTHARION_IMAGE;
+            case QUEST_ANUBREKHAN_MUST_DIE:
+                return NPC_ANUBREKHAN_IMAGE;
+            case QUEST_NOTH_THE_PLAGUEBINGER_MUST_DIE:
+                return NPC_NOTH_THE_PLAGUEBINGER_IMAGE;
+            case QUEST_INSTRUCTOR_RAZUVIOUS_MUST_DIE:
+                return NPC_INSTRUCTOR_RAZUVIOUS_IMAGE;
+            case QUEST_PATCHWERK_MUST_DIE:
+                return NPC_PATCHWERK_IMAGE;
+            case QUEST_MALYGOS_MUST_DIE:
+                return NPC_MALYGOS_IMAGE;
+            case QUEST_FLAME_LEVIATHAN_MUST_DIE:
+                return NPC_FLAME_LEVIATHAN_IMAGE;
+            case QUEST_RAZORSCALE_MUST_DIE:
+                return NPC_RAZORSCALE_IMAGE;
+            case QUEST_IGNIS_THE_FURNACE_MASTER_MUST_DIE:
+                return NPC_IGNIS_THE_FURNACE_MASTER_IMAGE;
+            case QUEST_XT_002_DECONSTRUCTOR_MUST_DIE:
+                return NPC_XT_002_DECONSTRUCTOR_IMAGE;
+            case QUEST_LORD_JARAXXUS_MUST_DIE:
+                return NPC_LORD_JARAXXUS_IMAGE;
+            default: //case QUEST_LORD_MARROWGAR_MUST_DIE:
+                return NPC_LORD_MARROWGAR_IMAGE;
+        }
+    }
+
+    void JustSummoned(Creature* image) override
+    {
+        if (image->GetEntry() != NPC_ANUBREKHAN_IMAGE)
+        {
+            image->GetMotionMaster()->MoveRotate(20000, ROTATE_DIRECTION_RIGHT);
+        }
+
+        _summonGUID = image->GetGUID();
+    }
+
+    void UpdateAI(uint32 diff) override
+    {
+        ScriptedAI::UpdateAI(diff);
+
+        _switchImageTimer += diff;
+
+        if (_switchImageTimer > MINUTE*IN_MILLISECONDS)
+        {
+            _switchImageTimer = 0;
+            QuestRelationBounds objectQR = sObjectMgr->GetCreatureQuestRelationBounds(me->GetEntry());
+
+            for (QuestRelations::const_iterator i = objectQR.first; i != objectQR.second; ++i)
+            {
+                uint32 questId = i->second;
+                Quest const* quest = sObjectMgr->GetQuestTemplate(questId);
+
+                if (!quest || !quest->IsWeekly())
+                    continue;
+
+                uint32 newEntry = GetImageEntry(questId);
+
+                if (GUID_ENPART(_summonGUID) != newEntry)
+                {
+                    if (Creature* image = ObjectAccessor::GetCreature(*me, _summonGUID))
+                        image->DespawnOrUnsummon();
+
+                    float z = 653.622f;
+
+                    if (newEntry == NPC_MALYGOS_IMAGE || newEntry == NPC_RAZORSCALE_IMAGE || newEntry == NPC_SARTHARION_IMAGE)
+                        z += 3.0f;
+
+                    me->SummonCreature(newEntry, 5703.077f, 583.9757f, z, 3.926991f);
+                }
+            }
+        }
+    }
+
+private:
+    uint32 _switchImageTimer;
+    uint64 _summonGUID;
+};
+
 void AddSC_dalaran()
 {
     new creature_script<npc_mageguard_dalaran>("npc_mageguard_dalaran");
     new creature_script<npc_minigob_manabonk>("npc_minigob_manabonk");
+    new creature_script<npc_archmage_landalock>("npc_archmage_landalock");
 }
