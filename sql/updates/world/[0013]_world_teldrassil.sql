@@ -1,3 +1,5 @@
+-- Аура и условие госсип меню на Иверроне
+
 DELETE FROM `creature` WHERE `guid` BETWEEN 10000 AND 10012;
 INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position_x`, `position_y`, `position_z`, `orientation`, `spawntimesecs`, `wander_distance`, `movement_type`) VALUES
 (10000, 63331, 1, 1, 1, 10424.83, 765.6614, 1322.754, 1.998563, 120, 0, 0),
@@ -16,6 +18,9 @@ INSERT INTO `creature` (`guid`, `id`, `map`, `spawnMask`, `phaseMask`, `position
 UPDATE `creature` SET `position_x` = 10322.9, `position_y` = 820.333, `position_z` = 1326.23, `orientation` = 5.55015 WHERE `guid` = 276859 AND `id` = 2079;
 UPDATE `creature` SET `wander_distance` = 0, `movement_type` = 0 WHERE `guid` IN (302852, 302853);
 
+DELETE FROM `creature` WHERE `guid` = 564233 AND `id` = 63331;
+DELETE FROM `creature_addon` WHERE `guid` = 564233;
+
 DELETE FROM `creature_template_addon` WHERE `entry` = 2079;
 DELETE FROM `creature_addon` WHERE `guid` IN (276859, 10010, 10012);
 INSERT INTO `creature_addon` (`guid`, `bytes2`, `auras`) VALUES
@@ -29,9 +34,9 @@ INSERT INTO `spell_area` (`spell`, `area`, `quest_start`, `quest_end`, `aura_spe
 (49417, 188, 0, 28713, 0, 0, 2, 1, 0, 41), -- Generic Quest Invisibility Detection 2
 (49416, 188, 28713, 28714, 0, 0, 2, 1, 66, 41), -- Generic Quest Invisibility Detection 1
 (60922, 188, 28714, 0, 0, 0, 2, 1, 66, 0), -- Generic Quest Invisibility Detection 3
-(92549, 188, 0, 28727, 0, 0, 2, 1, 0, 43), -- See Quest Invis 4                           (?)
-(94566, 188, 28727, 0, 0, 0, 2, 1, 64, 0), -- Generic Quest Invisibility Detection 5      (?)
-(92237, 257, 28725, 28728, -92239, 0, 2, 1, 74, 41); -- Summon Tarindrella Aura           (?)
+-- (92549, 188, 0, 28727, 0, 0, 2, 1, 0, 43), -- See Quest Invis 4                           (?)
+(94566, 188, 28723, 0, 0, 0, 2, 1, 66, 0); -- Generic Quest Invisibility Detection 5
+-- (92237, 257, 28725, 28728, -92239, 0, 2, 1, 74, 41); -- Summon Tarindrella Aura           (?)
 
 UPDATE `creature_template` SET `AIName` = "SmartAI" WHERE `entry` IN (2079, 49478, 34756, 34757, 2077);
 DELETE FROM `smart_scripts` WHERE `entryorguid` IN (2079, 49478, 34756, 34757, 2077) AND `source_type` = 0;
@@ -303,3 +308,89 @@ INSERT INTO `creature_formations` (`leaderGUID`, `memberGUID`, `dist`, `angle`, 
 
 (276809, 276809, 0, 0, 2),
 (276809, 276810, 4, 90, 2);
+
+UPDATE `creature` SET `position_x` = 9882.95, `position_y` = 900.002, `position_z` = 1307.93, `orientation` = 1.55456, `wander_distance` = 0, `movement_type` = 2 WHERE `guid` = 277016;
+
+DELETE FROM `creature_addon` WHERE `guid` = 277016;
+INSERT INTO `creature_addon` (`guid`, `path_id`, `bytes2`) VALUES
+(277016, 277016, 1);
+
+DELETE FROM `waypoint_data` WHERE `id` = 277016;
+INSERT INTO `waypoint_data` (`id`, `point`, `position_x`, `position_y`, `position_z`, `orientation`, `delay`, `move_flag`, `action`, `action_chance`, `entry`) VALUES
+(277016, 1, 9886.37, 904.421, 1307.55, 0, 0, 0, 0, 100, 2041),
+(277016, 2, 9882.54, 917.294, 1307.55, 0, 0, 0, 0, 100, 2041),
+(277016, 3, 9878.88, 925.45, 1307.82, 0, 0, 0, 0, 100, 2041),
+(277016, 4, 9871.89, 936.968, 1307.84, 0, 0, 0, 0, 100, 2041),
+(277016, 5, 9864.17, 948.02, 1306.99, 0, 0, 0, 0, 100, 2041),
+(277016, 6, 9856.83, 959.301, 1306.12, 0, 0, 0, 0, 100, 2041),
+(277016, 7, 9849.88, 975.782, 1305.41, 0, 0, 0, 0, 100, 2041),
+(277016, 8, 9846.68, 993.447, 1305.44, 0, 0, 0, 0, 100, 2041),
+(277016, 9, 9845.72, 1006.92, 1305.53, 0, 0, 0, 0, 100, 2041),
+(277016, 10, 9845.28, 1020.41, 1305.34, 0, 0, 0, 0, 100, 2041),
+(277016, 11, 9846.05, 1031.29, 1305, 0, 0, 0, 0, 100, 2041),
+(277016, 12, 9848.78, 1044.59, 1305.17, 0, 0, 0, 0, 100, 2041),
+(277016, 13, 9852.76, 1057.36, 1306.07, 0, 0, 0, 0, 100, 2041),
+(277016, 14, 9851.18, 1052.11, 1305.52, 0, 0, 0, 0, 100, 2041),
+(277016, 15, 9847.88, 1039.12, 1304.95, 0, 0, 0, 0, 100, 2041),
+(277016, 16, 9832.69, 1023.72, 1308.11, 0, 0, 0, 0, 100, 2041),
+(277016, 17, 9823.19, 1019.2, 1305.44, 0, 0, 0, 0, 100, 2041),
+(277016, 18, 9810.24, 1016.12, 1303.97, 0, 0, 0, 0, 100, 2041),
+(277016, 19, 9801.49, 1015.03, 1302.59, 0, 0, 0, 0, 100, 2041),
+(277016, 20, 9797.42, 1014.18, 1301.21, 0, 0, 0, 0, 100, 2041),
+(277016, 21, 9786.14, 1007.42, 1299.12, 0, 0, 0, 0, 100, 2041),
+(277016, 22, 9772.47, 990.013, 1297.39, 0, 0, 0, 0, 100, 2041),
+(277016, 23, 9759.59, 972.153, 1293.23, 0, 0, 0, 0, 100, 2041),
+(277016, 24, 9750.87, 956.592, 1294.03, 0, 0, 0, 0, 100, 2041),
+(277016, 25, 9744.92, 944.502, 1293.48, 0, 0, 0, 0, 100, 2041),
+(277016, 26, 9742.14, 936.156, 1294.69, 0, 0, 0, 0, 100, 2041),
+(277016, 27, 9746.44, 926.057, 1295.85, 0, 0, 0, 0, 100, 2041),
+(277016, 28, 9757.6, 918.558, 1296.82, 0, 0, 0, 0, 100, 2041),
+(277016, 29, 9773.63, 910.609, 1297.95, 0, 0, 0, 0, 100, 2041),
+(277016, 30, 9791.31, 908.167, 1297.97, 0, 0, 0, 0, 100, 2041),
+(277016, 31, 9808.96, 907.724, 1300.93, 0, 0, 0, 0, 100, 2041),
+(277016, 32, 9826.47, 909.933, 1303.68, 0, 0, 0, 0, 100, 2041),
+(277016, 33, 9839.64, 909.51, 1305.52, 0, 0, 0, 0, 100, 2041),
+(277016, 34, 9847.78, 906.097, 1306.13, 0, 0, 0, 0, 100, 2041),
+(277016, 35, 9855.5, 902.546, 1306.55, 0, 0, 0, 0, 100, 2041),
+(277016, 36, 9871.58, 897.968, 1308.28, 0, 0, 0, 0, 100, 2041),
+(277016, 37, 9877.62, 893.394, 1308.87, 0, 0, 0, 0, 100, 2041),
+(277016, 38, 9878.54, 875.883, 1306.7, 0, 0, 0, 0, 100, 2041),
+(277016, 39, 9876.33, 848.658, 1307.22, 0, 0, 0, 0, 100, 2041),
+(277016, 40, 9878.99, 862.769, 1307.25, 0, 0, 0, 0, 100, 2041),
+(277016, 41, 9880.77, 871.567, 1307.16, 0, 0, 0, 0, 100, 2041),
+(277016, 42, 9886.14, 888.723, 1307.61, 0, 0, 0, 0, 100, 2041),
+(277016, 43, 9886.9, 897.315, 1307.5, 0, 0, 0, 0, 100, 2041);
+
+UPDATE `creature` SET `position_x` = 10547.014648, `position_y` = 875.161499, `position_z` = 1309.603149, `orientation` = 1.639151 WHERE `guid` = 276862;
+
+UPDATE `creature_template_addon` SET `bytes1` = 65536 WHERE `entry` = 49479;
+UPDATE `creature_template_addon` SET `bytes1` = 3 WHERE `entry` = 8584;
+DELETE FROM `creature_addon` WHERE `guid` = 276856;
+INSERT INTO `creature_addon` (`guid`, `bytes1`) VALUES
+(276856, 8);
+
+UPDATE `creature_template` SET `AIName` = "SmartAI" WHERE `entry` = 49479;
+DELETE FROM `smart_scripts` WHERE `entryorguid` = 49479 AND `source_type` = 0;
+DELETE FROM `smart_scripts` WHERE `entryorguid` = 49479*100 AND `source_type` = 9;
+INSERT INTO `smart_scripts` (`entryorguid`,`source_type`,`id`,`link`,`event_type`,`event_phase_mask`,`event_chance`,`event_flags`,`event_param1`,`event_param2`,`event_param3`,`event_param4`,`action_type`,`action_param1`,`action_param2`,`action_param3`,`action_param4`,`action_param5`,`action_param6`,`target_type`,`target_param1`,`target_param2`,`target_param3`,`target_x`,`target_y`,`target_z`,`target_o`,`comment`) VALUES
+(49479,0,0,0,20,0,100,0,28724,0,0,0,80,49479*100,2,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Quest (28724) Rewarded - Start Script"),
+(49479,0,1,0,19,0,100,0,28725,0,0,0,1,1,0,0,0,0,0,7,0,0,0,0,0,0,0,"Dentaria Silverglade - On Quest (28725) Accepted - Say Text Line 1"),
+(49479,0,2,0,19,0,100,0,28729,0,0,0,1,2,0,0,0,0,0,7,0,0,0,0,0,0,0,"Dentaria Silverglade - On Quest (28729) Accepted - Say Text Line 2"),
+(49479,0,3,0,19,0,100,0,28730,0,0,0,1,3,0,0,0,0,0,7,0,0,0,0,0,0,0,"Dentaria Silverglade - On Quest (28730) Accepted - Say Text Line 3"),
+
+(49479*100,9,0,0,0,0,100,0,0,0,0,0,83,2,0,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Script - Remove NPC Flag Quest Giver"),
+(49479*100,9,1,0,0,0,100,0,0,0,0,0,11,87071,0,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Script - Cast Cosmetic Spell 'Alchemy'"),
+(49479*100,9,2,0,0,0,100,0,11000,11000,0,0,11,92388,0,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Script - Cast Cosmetic Spell 'Curing Ivveron'"),
+(49479*100,9,3,0,0,0,100,0,4000,4000,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Script - Say Text Line 0"),
+(49479*100,9,4,0,0,0,100,0,0,0,0,0,82,2,0,0,0,0,0,1,0,0,0,0,0,0,0,"Dentaria Silverglade - On Script - Add NPC Flag Quest Giver");
+
+DELETE FROM `conditions` WHERE `SourceEntry` = 92388 AND `SourceGroup` = 1 AND `SourceTypeOrReferenceId` = 13;
+INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry`, `SourceId`, `ElseGroup`, `ConditionTypeOrReference`, `ConditionTarget`, `ConditionValue1`, `ConditionValue2`, `ConditionValue3`, `NegativeCondition`, `ErrorType`, `ErrorTextId`, `ScriptName`, `Comment`) VALUES
+(13, 1, 92388, 0, 0, 31, 0, 3, 8584, 0, 0, 0, 0, "", "Spell ID: 92388 target Iverron");
+
+DELETE FROM `creature_text` WHERE `entry` = 49479;
+INSERT INTO `creature_text` (`entry`, `text_group`, `id`, `text_female`, `text`, `type`, `language`, `probability`, `emote`, `duration`, `sound`, `comment`) VALUES
+(49479,0,0,"","Iverron's poison is cured, but it will take some time for him to recover.",12,0,100,1,0,0,"Dentaria Silverglade"),
+(49479,1,0,"","Shadowthread Cave lies to the north. Be careful, it's dangerous there of late.",12,0,100,397,0,0,"Dentaria Silverglade"),
+(49479,2,0,"","The moonwell is to the northeast, on the other side of the pool and up the hill.",12,0,100,397,0,0,"Dentaria Silverglade"),
+(49479,3,0,"","The ramp up to Aldrassil is just in sight over there. Circle around and find Tenaron up top.",12,0,100,397,0,0,"Dentaria Silverglade");
