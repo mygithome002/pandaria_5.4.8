@@ -35,8 +35,8 @@ INSERT INTO `spell_area` (`spell`, `area`, `quest_start`, `quest_end`, `aura_spe
 (49416, 188, 28713, 28714, 0, 0, 2, 1, 66, 41), -- Generic Quest Invisibility Detection 1
 (60922, 188, 28714, 0, 0, 0, 2, 1, 66, 0), -- Generic Quest Invisibility Detection 3
 -- (92549, 188, 0, 28727, 0, 0, 2, 1, 0, 43), -- See Quest Invis 4                           (?)
-(94566, 188, 28723, 0, 0, 0, 2, 1, 66, 0); -- Generic Quest Invisibility Detection 5
--- (92237, 257, 28725, 28728, -92239, 0, 2, 1, 74, 41); -- Summon Tarindrella Aura           (?)
+(94566, 188, 28723, 0, 0, 0, 2, 1, 66, 0), -- Generic Quest Invisibility Detection 5
+(92237, 257, 28725, 28728, /* -92239*/0, 0, 2, 1, 74, 41); -- Summon Tarindrella Aura           (?)
 
 UPDATE `creature_template` SET `AIName` = "SmartAI" WHERE `entry` IN (2079, 49478, 34756, 34757, 2077);
 DELETE FROM `smart_scripts` WHERE `entryorguid` IN (2079, 49478, 34756, 34757, 2077) AND `source_type` = 0;
@@ -394,3 +394,16 @@ INSERT INTO `creature_text` (`entry`, `text_group`, `id`, `text_female`, `text`,
 (49479,1,0,"","Shadowthread Cave lies to the north. Be careful, it's dangerous there of late.",12,0,100,397,0,0,"Dentaria Silverglade"),
 (49479,2,0,"","The moonwell is to the northeast, on the other side of the pool and up the hill.",12,0,100,397,0,0,"Dentaria Silverglade"),
 (49479,3,0,"","The ramp up to Aldrassil is just in sight over there. Circle around and find Tenaron up top.",12,0,100,397,0,0,"Dentaria Silverglade");
+
+DELETE FROM `creature` WHERE `guid` = 372316 AND `id` = 49480;
+
+/*text es and us*/
+UPDATE `locales_creature_text` SET `text_female_loc6` = 'Te dejaremos con tu entrenamiento, Ilthalaine. Esta es su \área de especialización.' , `text_female_loc7` = 'Te dejaremos con tu entrenamiento, Ilthalaine. Esta es su \área de especialización.' WHERE `entry` = '49478' AND `text_group` = '0' AND `id` = '0'; 
+UPDATE `locales_creature_text` SET `text_female_loc6` = 'Estudia bien, y es posible que necesitemos que pelees a nuestro lado antes de que se llene la pr\óxima luna.' , `text_female_loc7` = 'Estudia bien, y es posible que necesitemos que pelees a nuestro lado antes de que se llene la pr\óxima luna.' WHERE `entry` = '49478' AND `text_group` = '1' AND `id` = '0';
+UPDATE `locales_creature_text` SET `text_loc6` = 'Lo siento, cazador. Ninguno de nuestros nuevos $cs est\á listo. Todav\ía tienen mucho que aprender.' , `text_loc7` = 'Lo siento, cazador. Ninguno de nuestros nuevos $cs est\á listo. Todav\ía tienen mucho que aprender.' WHERE `entry` = '2079' AND `text_group` = '0' AND `id` = '0';
+DELETE FROM `creature_text`  WHERE `entry` = 49477;
+INSERT INTO `creature_text` (`entry`, `text`, `text_female`, `type`, `probability`, `comment`) VALUES ('49477', 'I fear time may not be on our side, Ilthalaine. The battle may carry to Teldrassil itself if we do not act soon.', 'I fear time may not be on our side, Ilthalaine. The battle may carry to Teldrassil itself if we do not act soon.', '12', '100', 'Huntress Sandrya Moonfall');
+DELETE FROM `locales_creature_text`  WHERE `entry` = 49477;
+INSERT INTO `locales_creature_text` (`entry`, `text_loc6`, `text_loc7`, `text_female_loc6`, `text_female_loc7`) VALUES ('49477', 'Temo que el tiempo no esté de nuestro lado, Ilthalaine. La batalla puede llegar hasta Teldrassil si no actuamos pronto.', 'Temo que el tiempo no esté de nuestro lado, Ilthalaine. La batalla puede llegar hasta Teldrassil si no actuamos pronto.', 'Temo que el tiempo no esté de nuestro lado, Ilthalaine. La batalla puede llegar hasta Teldrassil si no actuamos pronto.', 'Temo que el tiempo no esté de nuestro lado, Ilthalaine. La batalla puede llegar hasta Teldrassil si no actuamos pronto.');
+UPDATE `locales_npc_text` SET `Text0_0_loc6` = 'Incluso dentro de fríos muros de piedra como los que cobijan a este pueblo, uno puede encontrar tranquilidad y paz. De hecho, puede encontrarlos dondequiera que esté... simplemente mire dentro de sí mismo para encontrar ese equilibrio.\r\n' , `Text0_0_loc7` = 'Incluso dentro de fríos muros de piedra como los que cobijan a este pueblo, uno puede encontrar tranquilidad y paz. De hecho, puede encontrarlos dondequiera que esté... simplemente mire dentro de sí mismo para encontrar ese equilibrio.\r\n' WHERE `ID` = '4783'; 
+UPDATE `locales_npc_text` SET `Text0_0_loc6` = 'Bienvenido, mi $g hermano: hermana;. Si estás aquí para entrenar, estaré encantado de entrenarte. $B$BPronto llegará un momento en el que la llamada del Sueño Esmeralda se apoderará de ti. Hibernarás durante muchos años y caminarás entre las formas más puras. Es allí y entonces que tendrá lugar su último entrenamiento.\r\n' , `Text0_0_loc7` = 'Bienvenido, mi $g hermano: hermana;. Si estás aquí para entrenar, estaré encantado de entrenarte. $B$BPronto llegará un momento en el que la llamada del Sueño Esmeralda se apoderará de ti. Hibernarás durante muchos años y caminarás entre las formas más puras. Es allí y entonces que tendrá lugar su último entrenamiento.\r\n' WHERE `ID` = '4784';
